@@ -1,5 +1,3 @@
-/* uva 10801
-NOT AC */
 #include <iostream>
 #include <vector>
 #include <queue>
@@ -13,7 +11,7 @@ typedef vector<ii> vii;
 #define x first
 #define y second
 #define INF 1e9
-int n,k,t[10],pos[105];
+int n,k,t[10];
 vector<vii> a(1000);
     vi dist(1000);
     priority_queue<ii, vector<ii>, greater<ii> > pq;
@@ -47,7 +45,7 @@ int main()
 {
             string s;
     freopen("test.inp","r",stdin);
-        freopen("test.out","w",stdout);
+       // freopen("test.out","w",stdout);
     while(cin>>n>>k)
     {
         for(int i=0;i<=500;i++) a[i].clear();
@@ -64,40 +62,40 @@ int main()
            if(u!=0)
            {
                 u=u+(i-1)*100;
-                if(pos[u-(i-1)*100]!=0)
+                for(int j=i;j>=2;--j)
+                if(!a[u-(j-1)*100].empty())
                 {
-                    a[u].push_back(ii(pos[u-(i-1)*100],60));
-                    a[pos[u-(i-1)*100]].push_back(ii(u,60));
+                    a[u].push_back(ii(u-(j-1)*100,60));
+                    a[u-(j-1)*100].push_back(ii(u,60));
                 }
-                else pos[u-(i-1)*100]=u;
            }
             while(ss>>v)
             {
              //   cout<<u<<" "<<v<<"\n";
                 v=v+(i-1)*100;
-                if(pos[v-(i-1)*100]!=0)
+                for(int j=i;j>=2;--j)
+                if(!a[v-(j-1)*100].empty())
                 {
-                    a[v].push_back(ii(pos[v-(i-1)*100],60));
-                    a[pos[v-(i-1)*100]].push_back(ii(v,60));
+                    a[v].push_back(ii(v-(j-1)*100,60));
+                    a[v-(j-1)*100].push_back(ii(v,60));
                 }
-                else pos[v-(i-1)*100]=v;
                 a[u].push_back(ii(v,abs((u%100)-(v%100))*t[i]));
                 a[v].push_back(ii(u,abs((u%100)-(v%100))*t[i]));
                 u=v;
             }
         }
         dijkstra();
-        for(int i=0;i<300;i++) cout<<i<<" "<<dist[i]<<"\n";
-       /* {
+       /* for(int i=0;i<300;i++) //cout<<i<<" "<<dist[i]<<"\n";
+        {
             cout<<i<<" ";
             for(int j=0;j<a[i].size();j++) cout<<a[i][j].x<<" ";
             cout<<"\n";
-        }
+        }*/
         int res=1e9;
             for(int i=1;i<=5;i++)  res=min(res,dist[k+(i-1)*100]);
             if(res==1e9) cout<<"IMPOSSIBLE";
             else cout<<res;
-            cout<<"\n";*/
+            cout<<"\n";
     }
     return 0;
 }
